@@ -1,0 +1,31 @@
+.event-container {
+    display: flex;
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.left-section {
+    flex: 1;
+    background: #cce4ff;
+    padding: 40px;
+    text-align: center;
+}
+
+.left-section h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.right-section {
+    flex: 1;
+    padding: 40px;
+}
+
+.right-section h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
