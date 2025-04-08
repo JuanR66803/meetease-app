@@ -1,5 +1,5 @@
 // src/components/LocationSelector.jsx
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -9,8 +9,8 @@ const LocationSelector = ({ onLocationSelect }) => {
     const [suggestions, setSuggestions] = useState([]);
     const [selectedPosition, setSelectedPosition] = useState([4.5709, -74.2973]);
     const [locationName, setLocationName] = useState("");
+    const mapRef = useRef(null);
 
-    // Buscar sugerencias de ciudad/país
     useEffect(() => {
         if (search.length < 3) {
             setSuggestions([]);
@@ -20,13 +20,12 @@ const LocationSelector = ({ onLocationSelect }) => {
         const delayDebounce = setTimeout(async () => {
             const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(search)}`);
             const data = await res.json();
-            setSuggestions(data.slice(0, 5)); // Limita sugerencias
+            setSuggestions(data.slice(0, 5));
         }, 400);
 
         return () => clearTimeout(delayDebounce);
     }, [search]);
 
-    // Manejar clic en sugerencia
     const handleSelectSuggestion = (suggestion) => {
         const { display_name, lat, lon } = suggestion;
         const coords = [parseFloat(lat), parseFloat(lon)];
@@ -35,6 +34,11 @@ const LocationSelector = ({ onLocationSelect }) => {
         setSuggestions([]);
         setSearch(display_name);
 
+        // 🔹 Mover el mapa al punto seleccionado
+        if (mapRef.current) {
+            mapRef.current.setView(coords, 13);
+        }
+
         onLocationSelect({
             name: display_name,
             lat: parseFloat(lat),
@@ -42,22 +46,22 @@ const LocationSelector = ({ onLocationSelect }) => {
         });
     };
 
-    // Componente interno para manejar clic en mapa
     const LocationMarker = () => {
         useMapEvents({
             click(e) {
                 const { lat, lng } = e.latlng;
                 setSelectedPosition([lat, lng]);
-                setLocationName(`Seleccionado manualmente: ${lat.toFixed(4)}, ${lng.toFixed(4)}`);
+                const name = `Marcado manualmente: ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+                setLocationName(name);
                 onLocationSelect({
-                    name: locationName || `${lat}, ${lng}`,
+                    name,
                     lat,
                     lon: lng,
                 });
             },
         });
 
-        return selectedPosition ? (
+        return (
             <Marker
                 position={selectedPosition}
                 icon={L.icon({
@@ -68,7 +72,7 @@ const LocationSelector = ({ onLocationSelect }) => {
             >
                 <Popup>{locationName || "Ubicación seleccionada"}</Popup>
             </Marker>
-        ) : null;
+        );
     };
 
     return (
@@ -92,7 +96,12 @@ const LocationSelector = ({ onLocationSelect }) => {
             )}
 
             <div style={{ height: "300px", marginTop: "10px" }}>
-                <MapContainer center={selectedPosition} zoom={10} style={{ height: "100%", width: "100%" }}>
+                <MapContainer
+                    center={selectedPosition}
+                    zoom={10}
+                    style={{ height: "100%", width: "100%" }}
+                    whenCreated={(mapInstance) => { mapRef.current = mapInstance; }}
+                >
                     <TileLayer
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution='&copy; OpenStreetMap'

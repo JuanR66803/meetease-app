@@ -1,5 +1,6 @@
 import { useState } from "react";
 import LocationSelector from "../../components/LocationSelector.jsx";
+import "./Event.css";
 
 const EventForm = () => {
     const [formData, setFormData] = useState({
@@ -7,20 +8,25 @@ const EventForm = () => {
         date: "",
         location: "",
         lat: "",
-        lon: "",
+        lng: "",
         price: "",
         capacity: "",
         image: null,
     });
 
+    const [imagePreview, setImagePreview] = useState(null);
     const [message, setMessage] = useState("");
 
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
-        setFormData({
-            ...formData,
-            [name]: type === "file" ? files[0] : value,
-        });
+
+        if (type === "file") {
+            const file = files[0];
+            setFormData({ ...formData, [name]: file });
+            setImagePreview(URL.createObjectURL(file));
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
     };
 
     const handleLocationSelect = (location) => {
@@ -28,8 +34,7 @@ const EventForm = () => {
             ...formData,
             location: location.name,
             lat: location.lat,
-            lon: location.lon,
-            
+            lng: location.lon, // Se guarda como "lng" para coincidir con tu backend
         });
         console.log("Ubicación seleccionada:", location);
     };
@@ -39,10 +44,8 @@ const EventForm = () => {
         setMessage("");
 
         const formDataToSend = new FormData();
-        Object.keys(formData).forEach((key) => {
-            if (key !== "image" || formData[key]) {
-                formDataToSend.append(key, formData[key]);
-            }
+        Object.entries(formData).forEach(([key, value]) => {
+            if (value) formDataToSend.append(key, value);
         });
 
         try {
@@ -57,7 +60,8 @@ const EventForm = () => {
             }
 
             setMessage("Evento creado exitosamente 🎉");
-            setFormData({ title: "", date: "", location: "", lat: "", lon: "", price: "", capacity: "", image: null });
+            setFormData({ title: "", date: "", location: "", lat: "", lng: "", price: "", capacity: "", image: null });
+            setImagePreview(null);
         } catch (error) {
             console.error("Error en la solicitud:", error);
             setMessage(error.message);
@@ -72,12 +76,32 @@ const EventForm = () => {
             {/* Selector de ciudad con mapa */}
             <LocationSelector onLocationSelect={handleLocationSelect} />
 
-            <input type="number" name="price" placeholder="Precio" value={formData.price} onChange={handleChange} required />
-            <input type="number" name="capacity" placeholder="Capacidad máxima" value={formData.capacity} onChange={handleChange} required />
-            <input type="file" name="image" accept="image/*" onChange={handleChange} />
-            <button type="submit" className="register-btn">Crear Evento</button>
-            {message && <p className="message">{message}</p>}
-        </form>
+            <div className="input-pair">
+                <label>Precio</label>
+                <div className="input-group">
+                    <span className="input-symbol">$</span>
+                    <input
+                        type="number"
+                        name="price"
+                        placeholder="Precio"
+                        value={formData.price}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+
+                <label style={{ marginTop: "12px" }}>Capacidad</label>
+                <input
+                    type="number"
+                    name="capacity"
+                    placeholder="Capacidad máxima"
+                    value={formData.capacity}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+
+            
     );
 };
 
