@@ -1,0 +1,164 @@
+/* Fondo general */
+.dashboard-user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eaf8fa;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 2rem;
+  }
+  
+  /* Card principal que contiene todo */
+  .dashboard-card {
+    display: flex;
+    width: 850px;
+    background-color: #f1fafa;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  /* Panel lateral (menú) */
+  .menu-panel {
+    width: 200px;
+    background-color: #d6e7ee;
+    padding: 20px;
+    border-right: 1px solid #a0b7c6;
+  }
+  
+  .menu-panel ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .menu-item {
+    padding: 12px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #a0b7c6;
+    transition: background 0.2s ease;
+  }
+  
+  .menu-item:hover,
+  .menu-item.active {
+    background-color: #c0dae2;
+    font-weight: bold;
+  }
+  
+  /* Panel derecho - contenido usuario */
+  .user-panel {
+    flex: 1;
+    padding: 30px 40px;
+    background-color: #f9feff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Foto de perfil */
+  .user-photo-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .user-photo {
+    width: 90px;
+    height: 110px;
+    border-radius: 50% / 60%;
+    background-color: #fff;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    margin-bottom: 8px;
+  }
+  
+  .user-photo img.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .user-icon {
+    font-size: 2.5rem;
+    color: #000;
+  }
+  
+  .edit-photo-btn {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 5px;
+  }
+  
+  .section-title {
+    font-weight: 500;
+    color: #444;
+    margin-top: 8px;
+  }
+  
+  /* Formulario */
+  .user-form {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  
+  label {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+    color: #333;
+    text-align: left;
+  }
+  
+  .input-edit {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #000;
+    padding-bottom: 4px;
+  }
+  
+  .input-edit input {
+    border: none;
+    outline: none;
+    background: transparent;
+    flex: 1;
+    font-size: 1rem;
+    padding: 20px;
+  }
+  
+  .edit-icon {
+    cursor: pointer;
+    color: #333;
+  }
+  
+  /* Botón guardar */
+  .save-btn {
+    align-self: center;
+    padding: 10px 20px;
+    background-color: #a0e0d6;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    color: #000;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .save-btn:hover {
+    background-color: #8bd3c5;
+  }
+  

@@ -3,6 +3,8 @@ import "./SignIn.css";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa";
 
 const SignIn = () => {
     const [formData, setFormData] = useState({ email: "", password: "" });
@@ -50,17 +52,38 @@ const SignIn = () => {
     };
 
     return (
-        <div className="sign-in">
-            <h2>Inicia Sesión</h2>
-            {redirectMessage && <p className="warning">{redirectMessage}</p>}
-            <form onSubmit={handleSubmit}>
-                {error && <p className="error">{error}</p>}
-                {success && <p className="success">{success}</p>}
-                <input type="email" name="email" placeholder="Email" onChange={handleChange} value={formData.email} />
-                <input type="password" name="password" placeholder="Contraseña" onChange={handleChange} value={formData.password} />
-                <button className="button" type="submit">Iniciar sesión</button>
-            </form>
-            <p>¿No tienes una cuenta? <NavLink className="sign-up-enlace" to="/auth/sign-up">Regístrate</NavLink></p>
+        <div className="sign-in-container">
+            <div className="right-section-in">
+                <h2>Inicia Sesión</h2>
+                {redirectMessage && <p className="warning-message-in">{redirectMessage}</p>}
+                <form onSubmit={handleSubmit} className="form-container-in">
+                    {error && <p className="error-message-in">{error}</p>}
+                    {success && <p className="success-message-in">{success}</p>}
+                    <input type="email" name="email" placeholder="Email" onChange={handleChange} value={formData.email} className="input-field-in" />
+                    <input type="password" name="password" placeholder="Contraseña" onChange={handleChange} value={formData.password} className="input-field-in" />
+                    <button className="submit-button-in" type="submit">Iniciar sesión</button>
+                </form>
+                <p className="sign-up-link-container-in">
+                    ¿No tienes una cuenta? <NavLink className="sign-up-link-in" to="/auth/sign-up">Regístrate</NavLink>
+                </p>
+            </div>
+            <div className="left-section-in">
+                <div className="text-center-in">
+                    <h1>Inicia sesión</h1>
+                    <p>Bienvenido, es hora de explorar que tenemos de nuevo para ti</p>
+                    <p>Inicia sesión con una de las siguientes opciones</p>               
+                    <div className="auth-buttons-in">
+                        <button className="auth-button google-button-in">
+                            <FcGoogle className="icon-in" />
+                            Continuar con Google
+                        </button>
+                        <button className="auth-button facebook-button-in">
+                            <FaFacebook className="icon-in" />
+                            Continuar con Facebook
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

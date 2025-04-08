@@ -5,7 +5,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const navigate = useNavigate(); // Para redirigir tras logout
+    const navigate = useNavigate();
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
@@ -22,11 +22,17 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         setUser(null);
         localStorage.removeItem("user");
-        navigate("/auth/sign-in"); // Redirigir al login tras cerrar sesión
+        navigate("/auth/sign-in");
+    };
+
+    const updateUser = (updatedData) => {
+        const updatedUser = { ...user, ...updatedData };
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={{ user, login, logout, updateUser }}>
             {children}
         </AuthContext.Provider>
     );
@@ -36,3 +42,4 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
     return useContext(AuthContext);
 };
+

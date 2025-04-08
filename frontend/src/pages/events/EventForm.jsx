@@ -1,11 +1,13 @@
 import { useState } from "react";
-
+import LocationSelector from "../../components/LocationSelector.jsx";
 
 const EventForm = () => {
     const [formData, setFormData] = useState({
         title: "",
         date: "",
         location: "",
+        lat: "",
+        lon: "",
         price: "",
         capacity: "",
         image: null,
@@ -21,13 +23,24 @@ const EventForm = () => {
         });
     };
 
+    const handleLocationSelect = (location) => {
+        setFormData({
+            ...formData,
+            location: location.name,
+            lat: location.lat,
+            lon: location.lon,
+            
+        });
+        console.log("Ubicación seleccionada:", location);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage("");
 
         const formDataToSend = new FormData();
         Object.keys(formData).forEach((key) => {
-            if (key !== "image" || formData[key]) {  // 🔹 No incluir imagen si no hay archivo
+            if (key !== "image" || formData[key]) {
                 formDataToSend.append(key, formData[key]);
             }
         });
@@ -44,7 +57,7 @@ const EventForm = () => {
             }
 
             setMessage("Evento creado exitosamente 🎉");
-            setFormData({ title: "", date: "", location: "", price: "", capacity: "", image: null });
+            setFormData({ title: "", date: "", location: "", lat: "", lon: "", price: "", capacity: "", image: null });
         } catch (error) {
             console.error("Error en la solicitud:", error);
             setMessage(error.message);
@@ -55,10 +68,13 @@ const EventForm = () => {
         <form onSubmit={handleSubmit} className="event-form">
             <input type="text" name="title" placeholder="Título del evento" value={formData.title} onChange={handleChange} required />
             <input type="date" name="date" value={formData.date} onChange={handleChange} required />
-            <input type="text" name="location" placeholder="Ubicación" value={formData.location} onChange={handleChange} required />
+
+            {/* Selector de ciudad con mapa */}
+            <LocationSelector onLocationSelect={handleLocationSelect} />
+
             <input type="number" name="price" placeholder="Precio" value={formData.price} onChange={handleChange} required />
             <input type="number" name="capacity" placeholder="Capacidad máxima" value={formData.capacity} onChange={handleChange} required />
-            <input type="file" name="image" accept="image/*" onChange={handleChange} /> {/* 🔹 Quitamos `required` */}
+            <input type="file" name="image" accept="image/*" onChange={handleChange} />
             <button type="submit" className="register-btn">Crear Evento</button>
             {message && <p className="message">{message}</p>}
         </form>

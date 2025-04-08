@@ -1,49 +1,205 @@
-input{
+:root {
+    --primary-color: #007bff;
+    --dark-color: black;
+    --light-bg: #cce7ff;
+    --hover-dark: #2c2c2c;
+    --active-dark: #1a1a1a;
+    --button-radius: 30px;
+    --input-border: 2px solid #ccc;
+}
+
+/* Contenedor principal */
+.sign-in-container {
+    display: flex;
+    flex-direction: column; /* Diseño vertical en móviles */
     width: 90%;
-    padding: 10px;
-    margin: 20px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-h2{
-    text-align: center;
-    margin: 20px 0 50px 0;
-    color: #000;
-    font-size: 1.5rem;
-    font-weight: 700;
-}
-
-.sign-in{
-    width: 30%;
-    height: 500px;
-    padding: 10px;
+    max-width: 1200px;
     margin: auto;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    background-color: #f5f5f5;
-    color: #000;
-    font-size: 1rem;
-    font-weight: 500;
+    border: 0 solid var(--dark-color);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    min-height: 100vh;
+}
+.sign-in-container h2{
+    color: var(--dark-color);
+    font-size: 24px;
+    margin-bottom: 20px;
+    margin-top: 100px;
+}
+
+@media (min-width: 768px) {
+    .sign-in-container {
+        flex-direction: row; /* Invierte las secciones en pantallas grandes */
+        align-items: stretch;
+    }
+}
+
+/* Sección azul (lado izquierdo en pantallas grandes) */
+.right-section-in {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    width: 100%;
     
 }
 
-.buttom{
-    width: 50%;
-    padding: 10px;
+@media (min-width: 768px) {
+    .right-section-in {
+        width: 50%;
+        border-radius: 200px 0 0 200px;
+    }
+}
+
+/* Sección del formulario (lado derecho en pantallas grandes) */
+.left-section-in {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: var(--light-bg);
+    border-radius: 100px 0 0 100px;
+    
+}
+
+@media (min-width: 768px) {
+    .left-section-in {
+        width: 50%;
+    }
+}
+
+/* Botones de autenticación */
+.auth-buttons-in {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
     margin: auto;
-    margin-top: 50px;
-    border: 1px solid #ccc;
+}
+
+.auth-button-in {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    width: 100%;
+    max-width: 250px;
+    border: none;
     border-radius: 8px;
-    box-sizing: border-box;
-    background-color: #000000;
-    color: #ffffff;
-    font-size: 0.8rem;
+    cursor: pointer;
     font-weight: 500;
-    transition: 0.3s;
 }
-.Sign-upEnlace{
-    color: rgba(75, 75, 230, 0.973);
+
+.google-button-in {
+    background-color: white;
+    color: var(--dark-color);
+    border: var(--input-border);
+    transition: all 0.3s ease-in-out;
+    margin: auto;
 }
+.google-button-in:hover {
+    background-color: var(--hover-dark);
+    color: white;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px);
+}
+.google-button-in:active {
+    background-color: var(--active-dark);
+    transform: translateY(1px);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.facebook-button-in {
+    background-color: #1877f2;
+    color: white;
+    transition: all 0.3s ease-in-out;
+    margin:auto;
+}
+.facebook-button-in:hover {
+    background-color: var(--hover-dark);
+    color: white;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px);
+}
+.facebook-button-in:active {
+    background-color: var(--active-dark);
+    transform: translateY(1px);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Formulario */
+.form-container-in {
+    width: 100%;
+    max-width: 350px;
+}
+.input-field-in {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    border: none;
+    border-bottom: var(--input-border);
+    transition: all 0.3s ease-in-out;
+    font-size: 16px;
+}
+.input-field-in:focus {
+    outline: none;
+    border-bottom: 2px solid var(--primary-color);
+    box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.4);
+    transform: scale(1.05);
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* Botón de enviar */
+.submit-button-in {
+    width: 50%;
+    margin: auto;
+    margin-top: 40px;
+    padding: 12px;
+    background-color: var(--dark-color);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: var(--button-radius);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    display: block;
+    text-align: center;
+}
+.submit-button-in:hover {
+    background-color: var(--hover-dark);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px);
+}
+.submit-button-in:active {
+    background-color: var(--active-dark);
+    transform: translateY(1px);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Mensajes de error y éxito */
+.error-message-in {
+    color: red;
+    text-align: center;
+}
+.success-message-in {
+    color: green;
+    text-align: center;
+}
+
+/* Enlace para registrarse */
+.sign-up-link-in {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+.sign-up-link-container-in {
+    margin-top: 20px;
+}
+
+
+
