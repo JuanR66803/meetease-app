@@ -9,21 +9,22 @@ export const registerEvent = async (req, res) => {
     try {
         console.log("📩 Recibiendo solicitud de creación de evento:", req.body);
 
-        const { title, date, location, price, capacity } = req.body;
+        const { title, date, location, lat, lng, price, capacity } = req.body;
         const image = req.file;
 
-        // ✅ Ahora la imagen es opcional
-        if (!title || !date || !location || !price || !capacity) {
-            return res.status(400).json({ message: "Los campos obligatorios son: título, fecha, ubicación, precio y capacidad." });
+        // Validación de campos obligatorios
+        if (!title || !date || !location || !lat || !lng || !price || !capacity) {
+            return res.status(400).json({ message: "Faltan campos obligatorios: título, fecha, ubicación, lat, lng, precio o capacidad." });
         }
 
+        // Convertir imagen a base64 (opcional)
         const imageUrl = image 
             ? `data:${image.mimetype};base64,${image.buffer.toString("base64")}`
             : null;
 
-        // ❗ Corrección: `createEvent` recibe parámetros individuales, no un objeto
-        const newEvent = await createEvent(title, date, location, price, capacity, imageUrl);
-        
+        // Pasar todos los campos, incluyendo lat/lng
+        const newEvent = await createEvent(title, date, location, lat, lng, price, capacity, imageUrl);
+
         console.log("✅ Evento creado:", newEvent);
 
         res.status(201).json({ message: "Evento creado con éxito", event: newEvent });
