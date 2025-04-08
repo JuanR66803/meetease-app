@@ -101,7 +101,20 @@ const EventForm = () => {
                 />
             </div>
 
-            
+            <label style={{ marginTop: "12px" }}>Imagen del evento (opcional)</label>
+            <input type="file" name="image" accept="image/*" onChange={handleChange} />
+
+            {imagePreview && (
+                <img
+                    src={imagePreview}
+                    alt="Previsualización"
+                    style={{ maxHeight: "200px", marginTop: "10px", borderRadius: "8px" }}
+                />
+            )}
+
+            <button type="submit" className="register-btn">Crear Evento</button>
+            {message && <p className="message">{message}</p>}
+        </form>
     );
 };
 
