@@ -26,4 +26,21 @@ export const createUser = async (name, email, password) => {
         console.error("❌ Error en createUser:", error);
         throw error;
     }
+
+};
+
+export const updateUserById = async (id, name, cel, image_url) => {
+    try {
+        const { rows } = await pool.query(
+            `UPDATE users 
+             SET name = $1, cel = $2, image_url = $3 
+             WHERE id = $4 
+             RETURNING *`,
+            [name, cel, image_url, id]
+        );
+        return rows[0];
+    } catch (error) {
+        console.error("❌ Error en updateUserById:", error);
+        throw error;
+    }
 };

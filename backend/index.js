@@ -3,8 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import pkg from "pg";
 import authRoutes from "./routes/authRoutes.js";
-import eventRoutes from "./routes/eventRoutes.js"; // Importamos las rutas de eventos
-
+import eventRoutes from "./routes/eventRoutes.js";
+import userRoutes from "./routes/userRoutes.js"; // Importamos las rutas de usuarios
+// Importamos las rutas de eventos
 dotenv.config(); // Cargar variables de entorno
 
 const { Pool } = pkg;
@@ -41,7 +42,8 @@ app.use(cors({
 
 // 🔹 Definir rutas
 app.use("/api", authRoutes);
-app.use("/api/events", eventRoutes); // Agregamos la nueva ruta de eventos
+app.use("/api/events", eventRoutes); 
+app.use("/api/users", userRoutes); // Añadimos las rutas de usuarios
 
 // 🔹 Ruta de prueba
 app.get("/", (req, res) => {
