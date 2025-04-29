@@ -1,14 +1,14 @@
 import pool from "../config/db.js";
 
-export const createEvent = async (title, date, location, price, capacity, imageUrl = null) => {
+export const createEvent = async (title, date, location, lat, lng, price, capacity, imageUrl = null, type_event) => {
     try {
         const query = `
-            INSERT INTO events (title, date, location, price, capacity, image_url) 
-            VALUES ($1, $2, $3, $4, $5, $6) 
+            INSERT INTO events (title, date, location, lat, lng, price, capacity, image_url, type_event) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
             RETURNING *;
         `;
 
-        const values = [title, date, location, price, capacity, imageUrl || null];
+        const values = [title, date, location, lat, lng, price, capacity, imageUrl || null, type_event];
 
         const { rows } = await pool.query(query, values);
 
@@ -19,4 +19,5 @@ export const createEvent = async (title, date, location, price, capacity, imageU
         throw error;
     }
 };
+
 
