@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <footer className="footer">
-      <p>Derechos de autor</p>
+      <p>Copyright © 2025 MeetEase.contenido protegido por las leyes de derecho de autor</p>
     </footer>
   );
 }

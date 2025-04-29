@@ -4,8 +4,8 @@ import dotenv from "dotenv";
 import pkg from "pg";
 import authRoutes from "./routes/authRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
-import userRoutes from "./routes/userRoutes.js"; // Importamos las rutas de usuarios
-// Importamos las rutas de eventos
+import userRoutes from "./routes/userRoutes.js";
+
 dotenv.config(); // Cargar variables de entorno
 
 const { Pool } = pkg;
@@ -34,7 +34,7 @@ app.use(express.json());
 
 // 🔹 Configuración de CORS
 app.use(cors({
-    origin: "*", // Temporal para pruebas
+    origin: process.env.FRONTEND_ORIGIN || "http://localhost:5173", // Se toma del entorno
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
@@ -43,7 +43,7 @@ app.use(cors({
 // 🔹 Definir rutas
 app.use("/api", authRoutes);
 app.use("/api/events", eventRoutes); 
-app.use("/api/users", userRoutes); // Añadimos las rutas de usuarios
+app.use("/api/users", userRoutes);
 
 // 🔹 Ruta de prueba
 app.get("/", (req, res) => {
