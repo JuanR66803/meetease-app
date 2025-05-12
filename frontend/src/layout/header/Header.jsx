@@ -33,6 +33,7 @@ const Header = () => {
                 <img src="/Logo.png" className="logo" alt="logo" />
                 <NavLink className="enlace" to="/" end>Inicio</NavLink>
                 <NavLink className="enlace" to="/event/register" end>Eventos</NavLink>
+                <NavLink className="enlace" to="/feed" end>FEED</NavLink>
 
                 <div className="box-buttom">
                     {user ? (
