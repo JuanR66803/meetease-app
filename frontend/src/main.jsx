@@ -6,6 +6,7 @@ import Layout from "./layout/Layout.jsx";
 import SignIn from "./pages/auth/sign-in/SignIn.jsx";
 import SignUp from "./pages/auth/sign-up/SignUp.jsx";
 import Event from "./pages/events/Event.jsx";
+import EventsPage from "./pages/listEvents/EventsPage.jsx"; 
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { AuthProvider } from "./context/AuthContext";
 import Dashboard_user from "./pages/users/dashboard/Dashboard_user.jsx";
@@ -32,8 +33,9 @@ createRoot(document.getElementById("root")).render(
           <Route path="auth">
             <Route path="sign-in" element={<SignIn />} />
             <Route path="sign-up" element={<SignUp />} />
+            
           </Route>
-
+          <Route path="feed" element={<h1>Feed</h1>} />
           <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>
       </Layout>

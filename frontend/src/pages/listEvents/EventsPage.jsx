@@ -1,41 +1,45 @@
-// src/pages/EventsPage.jsx
+// frontend/src/pages/events/EventPages.jsx
+import React, { useEffect, useState } from 'react';
+import './EventsPage.css';
 
-import React, { useState, useEffect } from 'react';
-
-const EventsPage = () => {
-  // Establece el estado para los eventos
+const EventList = () => {
   const [events, setEvents] = useState([]);
 
-  // Simula la carga de eventos desde una API
   useEffect(() => {
-    // Aquí podrías realizar una solicitud a una API, por ejemplo usando fetch o axios.
-    // Vamos a simular con un array estático para el ejemplo.
-
-    const fetchEvents = () => {
-      const eventList = [
-        { id: 1, name: 'Concierto de Rock', date: '2025-05-10' },
-        { id: 2, name: 'Charla sobre React', date: '2025-05-15' },
-        { id: 3, name: 'Taller de JavaScript', date: '2025-06-01' },
-      ];
-      setEvents(eventList);
+    // Hacemos la solicitud al backend para obtener los eventos
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch('/api/events'); 
+        const data = await response.json();
+        setEvents(data); // Guardamos los eventos en el estado
+      } catch (error) {
+        console.error('Error al obtener eventos:', error);
+      }
     };
 
     fetchEvents();
   }, []);
 
-  return (
+  <h1>probando pag </h1>
+
+  return (  
     <div>
-      <h1>Eventos</h1>
-      <ul>
-        {events.map(event => (
-          <li key={event.id}>
-            <h2>{event.name}</h2>
-            <p>{event.date}</p>
-          </li>
-        ))}
-      </ul>
+      <h1>Listado de Eventos</h1>
+      {events.length === 0 ? (
+        <p>No hay eventos disponibles</p>
+      ) : (
+        <ul>
+          {events.map((event) => (
+            <li key={event._id}>
+              <h2>{event.name}</h2>
+              <p>{event.description}</p>
+              <p>{event.date}</p> {/* campos del modelo */}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
 
-export default EventsPage;
+export default EventList;
