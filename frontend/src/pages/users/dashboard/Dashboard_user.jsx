@@ -11,10 +11,12 @@ const Dashboard_user = () => {
   const [isNameEditable, setIsNameEditable] = useState(false);
   const [isEmailEditable, setIsEmailEditable] = useState(false);
   const [isCelEditable, setIsCelEditable] = useState(false);
+  const [isPreferencesEditable, setIsPreferencesEditable] = useState(false);
 
   const [name, setName] = useState(user.name || "");
   const [email, setEmail] = useState(user.email || "");
   const [cel, setCel] = useState(user.cel || "");
+  const [preferences, setPreferences] = useState(user.preferences || "");
   const [profileImage, setProfileImage] = useState(user.image_url || defaultAvatar);
 
   const [imageFile, setImageFile] = useState(null);
@@ -43,27 +45,27 @@ const Dashboard_user = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     let imageUrl = user.image_url || defaultAvatar;
-  
+
     if (imageFile) {
       const formData = new FormData();
       formData.append("file", imageFile);
       formData.append("upload_preset", "meetEase_upload");
-  
+
       try {
         const res = await fetch("https://api.cloudinary.com/v1_1/dbxvkqv6w/image/upload", {
           method: "POST",
           body: formData,
         });
-  
+
         const data = await res.json();
         imageUrl = data.secure_url;
       } catch (error) {
         console.error("❌ Error subiendo imagen a Cloudinary:", error);
       }
     }
-  
+
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/update/${user.id}`, {
         method: "PUT",
@@ -75,20 +77,22 @@ const Dashboard_user = () => {
           email,
           cel,
           image_url: imageUrl,
+          preferences,
         }),
       });
-  
+
       const data = await res.json();
       console.log("✅ Usuario actualizado:", data);
-  
+
       // 🔄 Actualizar contexto global del usuario
       updateUser({
         name,
         email,
         cel,
         image_url: imageUrl,
+        preferences,
       });
-  
+
       alert("Datos actualizados correctamente");
     } catch (error) {
       console.error("❌ Error actualizando usuario:", error);
@@ -176,7 +180,23 @@ const Dashboard_user = () => {
                 />
               </div>
             </label>
-
+            <label>
+              Preferencias
+              <div className="input-edit">
+                <select value={preferences} disabled={!isPreferencesEditable} onChange={(e)=>setPreferences(e.target.value)} name="preferences" id="preferences">
+                  <option value="all">por defecto</option>
+                  <option value="concierto">Concierto</option>
+                  <option value="conferencia">Conferencia</option>
+                  <option value="cultural">Cultural</option>
+                  <option value="fiesta">Fiesta</option>
+                  <option value="corporativo">Corporativo</option>
+                </select>
+                <FaEdit
+                  className="edit-icon"
+                  onClick={() => setIsPreferencesEditable(!isPreferencesEditable)}
+                />
+              </div>
+            </label>
             <button type="submit" className="save-btn">
               Guardar Cambios
             </button>

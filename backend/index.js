@@ -1,40 +1,27 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import pkg from "pg";
 import authRoutes from "./routes/authRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config(); // Cargar variables de entorno
 
-const { Pool } = pkg;
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 🔹 Configuración de la base de datos PostgreSQL con Supabase
+// 🔹 Validar variable de entorno DATABASE_URI
 if (!process.env.DATABASE_URI) {
     console.error("❌ ERROR: La variable de entorno DATABASE_URI no está definida.");
     process.exit(1);
 }
-
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URI,
-});
-
-pool.connect()
-    .then(() => console.log("✅ Conectado a PostgreSQL (Supabase)"))
-    .catch(err => {
-        console.error("❌ Error conectando a PostgreSQL:", err);
-        process.exit(1);
-    });
 
 // 🔹 Middlewares
 app.use(express.json());
 
 // 🔹 Configuración de CORS
 app.use(cors({
-    origin: process.env.FRONTEND_ORIGIN || "http://localhost:5173", // Se toma del entorno
+    origin: process.env.FRONTEND_ORIGIN || "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true

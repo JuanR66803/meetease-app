@@ -9,11 +9,17 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
+
+        try {
+            if (storedUser) {
+                const parsedUser = JSON.parse(storedUser);
+                setUser(parsedUser);
+            }
+        } catch (error) {
+            console.error("❌ Error al parsear usuario desde localStorage:", error);
+            localStorage.removeItem("user"); // Limpia el dato corrupto
         }
     }, []);
-
     const login = (userData) => {
         setUser(userData);
         localStorage.setItem("user", JSON.stringify(userData));

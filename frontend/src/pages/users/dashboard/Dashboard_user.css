@@ -130,7 +130,7 @@
     padding-bottom: 4px;
   }
   
-  .input-edit input {
+  .input-edit input,select {
     border: none;
     outline: none;
     background: transparent;

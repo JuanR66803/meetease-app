@@ -1,12 +1,14 @@
 import express from "express";
 import { registerUser } from "../controllers/authController.js";
 import { loginUser } from "../controllers/authController.js";
+import { registerGoogleUser } from "../controllers/authController.js";
 
 const router = express.Router(); // ✅ Define el enrutador antes de usarlo
 
 // Rutas de autenticación
 router.post("/register", registerUser);
 router.post("/login", loginUser)
+router.post('/google', registerGoogleUser);
 
 // Ruta de prueba
 router.get("/test", (req, res) => {

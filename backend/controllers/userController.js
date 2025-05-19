@@ -3,11 +3,10 @@ import { updateUserById } from "../models/userModel.js";
 export const updateUserController = async (req, res) => {
     try {
         const { id } = req.params; // ID del usuario
-        const { name, cel, image_url } = req.body;
+        const { name, cel, image_url,preferences } = req.body;
+        console.log(req.body)
 
-        console.log("🛠 Actualizando usuario:", { id, name, cel, image_url });
-
-        const updatedUser = await updateUserById(id, name, cel, image_url);
+        const updatedUser = await updateUserById(id, name, cel, image_url,preferences);
 
         if (!updatedUser) {
             return res.status(404).json({ message: "Usuario no encontrado" });
