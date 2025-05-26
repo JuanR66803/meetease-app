@@ -1,164 +1,272 @@
 /* Fondo general */
 .dashboard-user {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #eaf8fa;
-    min-height: 100vh;
-    font-family: 'Segoe UI', sans-serif;
-    padding: 2rem;
-  }
-  
-  /* Card principal que contiene todo */
-  .dashboard-card {
-    display: flex;
-    width: 850px;
-    background-color: #f1fafa;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-  
-  /* Panel lateral (menú) */
-  .menu-panel {
-    width: 200px;
-    background-color: #d6e7ee;
-    padding: 20px;
-    border-right: 1px solid #a0b7c6;
-  }
-  
-  .menu-panel ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .menu-item {
-    padding: 12px 10px;
-    cursor: pointer;
-    border-bottom: 1px solid #a0b7c6;
-    transition: background 0.2s ease;
-  }
-  
-  .menu-item:hover,
-  .menu-item.active {
-    background-color: #c0dae2;
-    font-weight: bold;
-  }
-  
-  /* Panel derecho - contenido usuario */
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  background-color: #eaf8fa;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 2rem;
+}
+
+/* Card principal que contiene todo */
+.dashboard-card {
+  display: flex;
+  width: 100%;
+  background-color: #f1fafa;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Panel lateral (menú) */
+.menu-panel {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  background-color: #d6e7ee;
+  padding: 20px;
+  border-right: 1px solid #a0b7c6;
+}
+
+.menu-panel ul {
+  list-style: none;
+  padding: 0;
+}
+
+.menu-item {
+  text-align: left;
+  padding: 12px 10px;
+  margin: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  border-left: transparent;
+}
+
+.menu-item .menu-icon {
+  margin-right: 10px;
+}
+
+.menu-item:hover,
+.menu-item.active {
+  background-color: #c0dae2;
+  border-left: 1px solid #000;
+  font-weight: bold;
+}
+
+/* Panel derecho - contenido usuario */
+.user-panel {
+  padding: 30px 40px;
+  background-color: #f9feff;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 40px;
+  /* espacio entre imagen y formulario */
+  flex-wrap: nowrap;
+}
+
+/* Foto de perfil */
+.user-photo-section {
+  position: relative;
+  top: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 2px solid #c4c2c2;
+  box-shadow: 1px 1px 20px #cacaca;
+  border-radius: 0.8rem;
+  width: 220px;
+  height: auto;
+  align-items: center;
+}
+
+.user-photo-section h2 {
+  margin-bottom: 20px;
+}
+
+.user-photo {
+  width: 140px;
+  height: 140px;
+  border-radius: 50% / 60%;
+  background-color: #fff;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  margin-bottom: 8px;
+}
+
+.user-photo img.profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-icon {
+  font-size: 1.5rem;
+  color: #000;
+}
+
+.edit-photo-btn {
+  background: none;
+  width: 80%;
+  border: 2px solid #c2bfbf;
+  color: #333;
+  font-size: 0.7rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 5px;
+  height: 28px;
+  align-items: center;
+  padding: 0 0.5rem;
+}
+
+.edit-photo-btn:hover {
+  background: #dbdee0;
+}
+
+.verified-badge {
+  font-weight: 700;
+  font-size: 0.8rem;
+  margin-top: 10px;
+}
+
+/* Formulario */
+.title-panel {
+  font-size: 1.5rem;
+}
+
+.info-panel {
+  font-size: 1rem;
+}
+
+.user-form {
+  width: 100%;
+  max-width: 800px;
+  height: 320px;
+  border: 2px solid #c0dae2;
+  display: flex;
+  padding: 0 0 10px 0;
+  justify-content: center;
+  align-items: center;
+  flex-flow: row wrap;
+  gap: 10px;
+  box-shadow: 1px 1px 20px #cacaca;
+}
+@media screen and (max-width: 768px) {
   .user-panel {
-    flex: 1;
-    padding: 30px 40px;
-    background-color: #f9feff;
-    display: flex;
     flex-direction: column;
     align-items: center;
   }
-  
-  /* Foto de perfil */
-  .user-photo-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 30px;
-  }
-  
-  .user-photo {
-    width: 90px;
-    height: 110px;
-    border-radius: 50% / 60%;
-    background-color: #fff;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    margin-bottom: 8px;
-  }
-  
-  .user-photo img.profile-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .user-icon {
-    font-size: 2.5rem;
-    color: #000;
-  }
-  
-  .edit-photo-btn {
-    background: none;
-    border: none;
-    color: #333;
-    font-size: 0.9rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-top: 5px;
-  }
-  
-  .section-title {
-    font-weight: 500;
-    color: #444;
-    margin-top: 8px;
-  }
-  
-  /* Formulario */
+
+  .user-photo-section,
   .user-form {
     width: 100%;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
+    max-width: 90%;
   }
+}
+label {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  color: #333;
+  text-align: left;
+}
+
+.input-edit {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 4px;
+}
+
+.input-edit input,
+select {
+  background: transparent;
+  flex: 1;
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.edit-icon {
+  cursor: pointer;
+  color: #333;
+}
+
+/* Botón guardar */
+.save-btn {
+  position: relative;
+  left: -220px;
+  width: fit-content;
+  align-self: self-end;
+  padding: 10px 20px;
+  margin: 0 0 20px 0;
+  background-color: #a0e0d6;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  color: #000;
+  font-weight: 300;
   
-  label {
-    display: flex;
-    flex-direction: column;
-    font-size: 0.8rem;
-    color: #333;
-    text-align: left;
-  }
-  
-  .input-edit {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 1px solid #000;
-    padding-bottom: 4px;
-  }
-  
-  .input-edit input,select {
-    border: none;
-    outline: none;
-    background: transparent;
-    flex: 1;
-    font-size: 1rem;
-    padding: 20px;
-  }
-  
-  .edit-icon {
-    cursor: pointer;
-    color: #333;
-  }
-  
-  /* Botón guardar */
-  .save-btn {
-    align-self: center;
-    padding: 10px 20px;
-    background-color: #a0e0d6;
-    border: none;
-    border-radius: 12px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    color: #000;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .save-btn:hover {
-    background-color: #8bd3c5;
-  }
-  
+  cursor: pointer;
+  transform: scale();
+  transition: background transform 0.3s ease;
+}
+
+.save-btn:hover {
+  background-color: #8bd3c5;
+  transform: scale(1.1);
+}
+
+.stats-grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+  height: 100px;
+  position: relative;
+  margin-bottom: 20px;
+  top: 30px;
+
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  box-shadow: 0 10px 10px #c2bfbf;
+  width: 200px;
+  height: 100px;
+
+}
+
+.green .stat-number {
+  color: #49f552;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.blue .stat-number {
+  color: #4c49f5;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.purple .stat-number {
+  color: #a849f5;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
