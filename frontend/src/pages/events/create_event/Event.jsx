@@ -1,27 +1,27 @@
-import "./Event.css"; 
+import "./Event.css";
 import { useState } from "react";
 import { Calendar, Clock, MapPin, Users, DollarSign, ImageIcon } from "lucide-react";
-import LocationSelector from "../../components/LocationSelector.jsx";
-import { useAuth } from "../../context/AuthContext.jsx";
+import LocationSelector from "../../../components/LocationSelector.jsx";
+import { useAuth } from "../../../context/AuthContext.jsx";
 
-const EventForm = () => {
+const Event = () => {
     const [step, setStep] = useState(1);
     const { user } = useAuth();
     const [formData, setFormData] = useState({
         title: "",
         date: "",
-        time: "",
-        description: "",
         location: "",
-        venue: "",
-        address: "",
-        lat: "",
-        lng: "",
         price: "",
         capacity: "",
         image_url: "",
+        lat: "",
+        lng: "",
         type_event: "",
         id_organizer: user.id,
+        location_name: "",
+        address: "",
+        time: "",
+        description: "",
         is_private: false,
         requires_registration: false
     });
@@ -50,7 +50,7 @@ const EventForm = () => {
         if (type === "file") {
             const file = files[0];
             if (!file) return;
-            
+
             const validTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
             const maxSize = 5 * 1024 * 1024;
 
@@ -139,18 +139,18 @@ const EventForm = () => {
             setFormData({
                 title: "",
                 date: "",
-                time: "",
-                description: "",
                 location: "",
-                venue: "",
-                address: "",
-                lat: "",
-                lng: "",
                 price: "",
                 capacity: "",
                 image_url: "",
+                lat: "",
+                lng: "",
                 type_event: "",
                 id_organizer: user.id,
+                location_name: "",
+                address: "",
+                time: "",
+                description: "",
                 is_private: false,
                 requires_registration: false
             });
@@ -269,7 +269,7 @@ const EventForm = () => {
                                         <label className="form-label">
                                             Imagen de portada
                                         </label>
-                                        <div 
+                                        <div
                                             className="image-drop"
                                             onClick={() => document.getElementById('image-upload').click()}
                                         >
@@ -331,12 +331,12 @@ const EventForm = () => {
                                                 Nombre del lugar
                                             </label>
                                             <input
-                                                id="venue"
-                                                name="venue"
+                                                id="location_name"
+                                                name="location_name"
                                                 type="text"
                                                 placeholder="Ej: Teatro Municipal"
                                                 className="form-input"
-                                                value={formData.venue}
+                                                value={formData.location_name}
                                                 onChange={handleChange}
                                             />
                                         </div>
@@ -511,4 +511,4 @@ const EventForm = () => {
     );
 };
 
-export default EventForm;
+export default Event;

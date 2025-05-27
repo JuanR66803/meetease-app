@@ -1,4 +1,4 @@
-import { createEvent } from "../models/eventModel.js";
+import { createEvent, findEventFeed } from "../models/eventModel.js";
 
 export const registerEvent = async (req, res) => {
     try {
@@ -10,7 +10,7 @@ export const registerEvent = async (req, res) => {
             time,
             description,
             location,
-            venue,          // se pasa como location_name
+            location_name,          
             address,
             lat,
             lng,
@@ -22,7 +22,7 @@ export const registerEvent = async (req, res) => {
         } = req.body;
 
         // Validación básica
-        if (!title || !date || !location || !lat || !lng || !price || !capacity || !type_event || !venue || !address || !time || !description || !id_organizer) {
+        if (!title || !date || !location || !lat || !lng || !price || !capacity || !type_event || !location_name || !address || !time || !description || !id_organizer) {
             return res.status(400).json({ message: "Faltan campos obligatorios." });
         }
 
@@ -31,14 +31,14 @@ export const registerEvent = async (req, res) => {
             title,
             date,
             location,
-            lat,
-            lng,
             price,
             capacity,
             image_url,
+            lat,
+            lng,
             type_event,
             id_organizer,
-            venue,       // ← location_name
+            location_name, // <--- corregido aquí
             address,
             time,
             description
@@ -49,6 +49,15 @@ export const registerEvent = async (req, res) => {
         res.status(201).json({ message: "Evento creado con éxito", event: newEvent });
     } catch (error) {
         console.error("❌ Error al crear evento:", error);
+        res.status(500).json({ message: "Error en el servidor", error: error.message });
+    }
+};
+
+export const getEventFeed = async (req, res) => {
+    try {
+        const events = await findEventFeed();
+        res.status(200).json(events); // <-- Debe devolver un array
+    } catch (error) {
         res.status(500).json({ message: "Error en el servidor", error: error.message });
     }
 };

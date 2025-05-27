@@ -47,7 +47,7 @@ const Header = () => {
         <header>
             <nav className="nav">
                 <img src="/Logo.png" className="logo" alt="logo" />
-                <NavLink className="enlace" to="/" end>Inicio</NavLink>
+                <NavLink className="enlace" to={isAuthenticated ? "/event/feed" : "/"} end>Inicio</NavLink>
                 <NavLink className="enlace" to="/event/register" end>Eventos</NavLink>
                 <div className="box-buttom">
                     {isAuthenticated ? (

@@ -1,16 +1,31 @@
 import pool from "../config/db.js";
 
-export const createEvent = async (title,date,location,lat,lng,price,capacity,image_url,type_event,id_organizer,location_name,address,time,description) => {
+export const createEvent = async (
+    title,
+    date,
+    location,
+    price,
+    capacity,
+    image_url,
+    lat,
+    lng,
+    type_event,
+    id_organizer,
+    location_name,
+    address,
+    time,
+    description
+) => {
     const query = `
         INSERT INTO events (
             title,
             date,
             location,
-            lat,
-            lng,
             price,
             capacity,
             image_url,
+            lat,
+            lng,
             type_event,
             id_organizer,
             location_name,
@@ -18,7 +33,7 @@ export const createEvent = async (title,date,location,lat,lng,price,capacity,ima
             time,
             description
         ) 
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
         RETURNING *;
     `;
 
@@ -26,11 +41,11 @@ export const createEvent = async (title,date,location,lat,lng,price,capacity,ima
         title,
         date,
         location,
-        lat,
-        lng,
         price,
         capacity,
         image_url,
+        lat,
+        lng,
         type_event,
         id_organizer,
         location_name,
@@ -43,4 +58,8 @@ export const createEvent = async (title,date,location,lat,lng,price,capacity,ima
     return result.rows[0];
 };
 
-
+export const findEventFeed = async () => {
+    const query = `SELECT * FROM events ORDER BY date DESC;`;
+    const result = await pool.query(query);
+    return result.rows;
+};

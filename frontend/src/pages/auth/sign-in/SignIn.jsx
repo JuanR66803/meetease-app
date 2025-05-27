@@ -52,7 +52,7 @@ const SignIn = () => {
 
             login(data.user); // Guardar usuario en el contexto de autenticación
             setSuccess("Iniciando sesión. Redirigiendo...");
-            setTimeout(() => navigate("/"), 1500);
+            setTimeout(() => navigate("/feed"), 1500);
         } catch (err) {
             setError(err.message);
         }
