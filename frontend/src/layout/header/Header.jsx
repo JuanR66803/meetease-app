@@ -2,14 +2,32 @@ import "./Header.css";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useState, useEffect } from "react";
-import { FaBars, FaTimes } from "react-icons/fa"; // Íconos de React Icons
+import { FaBars, FaTimes } from "react-icons/fa";
+import useAuthStore from "../../stores/useAuthStore";
 
 const Header = () => {
+    // Ambos sistemas de autenticación
+    const { userLogged, logoutAuth } = useAuthStore();
     const { user, logout } = useAuth();
+    
+    // Estado para manejar el menú móvil
     const [menuOpen, setMenuOpen] = useState(false);
-
     const toggleMenu = () => setMenuOpen(!menuOpen);
-
+    
+    // Determinar si hay un usuario autenticado por cualquiera de los métodos
+    const isAuthenticated = user || userLogged;
+    
+    // Función que maneja el cierre de sesión de cualquier tipo
+    const handleLogout = () => {
+        if (user) {
+            logout();
+        }
+        if (userLogged) {
+            logoutAuth();
+        }
+        setMenuOpen(false);
+    };
+    
     // Cierra el menú si se hace clic fuera
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -17,37 +35,33 @@ const Header = () => {
                 setMenuOpen(false);
             }
         };
-
         if (menuOpen) {
             document.addEventListener("click", handleClickOutside);
         }
-
         return () => {
             document.removeEventListener("click", handleClickOutside);
         };
     }, [menuOpen]);
-
+    
     return (
         <header>
             <nav className="nav">
                 <img src="/Logo.png" className="logo" alt="logo" />
-                <NavLink className="enlace" to="/" end>Inicio</NavLink>
+                <NavLink className="enlace" to={isAuthenticated ? "/event/feed" : "/"} end>Inicio</NavLink>
                 <NavLink className="enlace" to="/event/register" end>Eventos</NavLink>
-
                 <div className="box-buttom">
-                    {user ? (
+                    {isAuthenticated ? (
                         <>
                             {/* Botón de menú hamburguesa con ícono */}
                             <button className={`hamburger-menu ${menuOpen ? "active" : ""}`} onClick={toggleMenu}>
                                 {menuOpen ? <FaTimes /> : <FaBars />}
                             </button>
-
                             {/* Menú desplegable con animación */}
                             <div className={`dropdown-menu ${menuOpen ? "show" : ""}`}>
                                 <NavLink className="dropdown-item" to="user/profile" onClick={() => setMenuOpen(false)}>
                                     Perfil
                                 </NavLink>
-                                <button className="dropdown-item" onClick={logout}>
+                                <button className="dropdown-item" onClick={handleLogout}>
                                     Cerrar sesión
                                 </button>
                             </div>
