@@ -12,7 +12,7 @@ const Home = () =>{
                         <p className="presentacion">Gestiona tus eventos, nosotros te ayudamos, únete a una gran comunidad y reserva ahora...</p>
                     </div>
                     <div className="img-container"> {/* Nueva div para agrupar los elementos */}
-                        <NavLink className="button-start"to="/auth/sign-up"end> ¡Comienza Ahora!</NavLink>
+                        <NavLink className="button-start"to="/feed"end> ¡Comienza Ahora!</NavLink>
                     </div>
                 </div>
             </>

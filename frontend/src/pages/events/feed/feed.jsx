@@ -17,7 +17,58 @@ const Feed = () => {
     const [search, setSearch] = useState("");
     const [filterDate, setFilterDate] = useState("");
     const [filterType, setFilterType] = useState("");
-    const [numEntradas, setNumEntradas] = useState(1)
+    const [numEntradas, setNumEntradas] = useState(1);
+    const [message, setMessage] = useState("");
+    const [qrCodeGenerated, setQrCodeGenerated] = useState("");
+
+
+
+    const HandleReserva = async (e) => {
+        e.preventDefault();
+        setMessage("");
+
+        // Validación rápida
+        if (!selectedEvent || !user) {
+            setMessage("Falta información del evento o del usuario.");
+            return;
+        }
+
+        // Generar código QR aleatorio
+        const generateQrCode = () => {
+            return Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
+        };
+
+        const qrCode = generateQrCode();
+
+        const payload = {
+            id_event: selectedEvent.id,
+            id_user: user.id,
+            type_tickets: "general", // Puedes ajustar según tu lógica
+            qr_code: qrCode,
+            reserve_status: "reservado",
+            cant_entradas:numEntradas
+        };
+
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/ticket/generateTicket`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Error al generar el ticket");
+            }
+
+            setMessage("Ticket generado exitosamente ✅");
+            setQrCodeGenerated(qrCode); // (opcional, para mostrarlo más adelante si quieres con canvas)
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
+            setMessage(error.message);
+        }
+    };
+
 
     const filterRef = useRef(null);
 
@@ -166,7 +217,7 @@ const Feed = () => {
                         <button className="btn-cerrar" onClick={() => setShowModalInfo(false)}><IoMdClose /></button>
                         <div>
                             <label className="label_entradas" htmlFor="entradas">
-                                    Cantidad de entradas:
+                                Cantidad de entradas:
                             </label>
                             <div className="container-entradas">
                                 <input
@@ -185,13 +236,16 @@ const Feed = () => {
                             </div>
 
 
-                            <button className="action_btn">
+                            <button className="action_btn" onClick={HandleReserva}>
                                 Reservar Entradas
                             </button>
                         </div>
                     </div>
-
-
+                    {message && (
+                        <div className={`status-message-ticket ${message.includes("exitosamente") ? "success-message" : "error-message"}`}>
+                            {message}
+                        </div>
+                    )}
                 </div>
             )}
         </div>

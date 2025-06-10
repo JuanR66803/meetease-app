@@ -222,7 +222,7 @@
 }
 
 .content_modal {
-    
+
     position: relative;
     background-color: rgba(0, 0, 0, 0.533);
     color: #fff;
@@ -231,7 +231,7 @@
     max-width: 900px;
     margin-top: 500px;
     width: 90%;
-    height:1000px;
+    height: 1000px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     animation: fadeIn 0.3s ease-in-out;
 }
@@ -242,7 +242,8 @@
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
 }
-.date_modal{
+
+.date_modal {
     width: 280px;
     height: 30px;
     position: relative;
@@ -253,6 +254,7 @@
     background-color: #ffffff;
     color: #000000;
 }
+
 .text_info {
     display: flex;
     gap: 10px;
@@ -262,9 +264,11 @@
     margin-bottom: 0.5rem;
     color: #f0f0f0;
 }
-.mapa_modal{
+
+.mapa_modal {
     margin-top: 30px;
 }
+
 .btn-cerrar {
     position: absolute;
     top: 350px;
@@ -291,7 +295,7 @@
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
-.imagen_event{
+.imagen_event {
     width: 100%;
     height: 300px;
     background-color: #0005;
@@ -306,7 +310,8 @@
     object-fit: contain;
 
 }
-.action_btn{
+
+.action_btn {
     margin-top: 30px;
     width: 140px;
     height: 50px;
@@ -316,32 +321,83 @@
     box-shadow: none;
     color: #fff;
     transition: box-shadow 0.2s ease, color 0.2s ease, background-color 0.2s ease;
-    
+
 }
-.action_btn:hover{
+
+.action_btn:hover {
     color: #000000;
     background-color: #fff;
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
 }
-.container-entradas{
+
+.container-entradas {
     width: 100%;
     display: flex;
-    
+
 }
-.Number-entradas{
+
+.Number-entradas {
     width: 400px;
     height: 40px;
     border-radius: 10px;
     align-self: center;
 }
-.precio-total{
+
+.precio-total {
     flex-grow: 2;
     text-align: right;
     align-self: center;
-    
+
 }
-.label_entradas{
+
+.label_entradas {
     font-size: 18px;
     margin: 20px 0 20px 0;
     color: #ccc;
+}
+
+.status-message-ticket {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    padding: 16px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    color: #fff;
+    animation: fadeInOut 4s ease-in-out forwards;
+}
+
+/* Éxito (verde) */
+.success-message {
+    background-color: #28a745;
+}
+
+/* Error (rojo) */
+.error-message {
+    background-color: #dc3545;
+}
+
+/* Animación */
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    10% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
 }

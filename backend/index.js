@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import ticketRoutes from "./routes/ticketRoutes.js"
 
 dotenv.config(); // Cargar variables de entorno
 
@@ -31,6 +32,7 @@ app.use(cors({
 app.use("/api", authRoutes);
 app.use("/api/events", eventRoutes); 
 app.use("/api/users", userRoutes);
+app.use("/api/ticket", ticketRoutes);
 
 // 🔹 Ruta de prueba
 app.get("/", (req, res) => {

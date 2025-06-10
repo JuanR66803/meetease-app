@@ -139,7 +139,7 @@ const SignIn = () => {
 
             <div className="left-section-in">
                 <div className="text-center-in">
-                    <h1>Inicia sesión</h1>
+                    <h2>Inicia sesión</h2>
                     <p>Bienvenido, es hora de explorar qué tenemos de nuevo para ti</p>
                     <p>Inicia sesión con una de las siguientes opciones</p>
                     <div className="auth-buttons-in">
