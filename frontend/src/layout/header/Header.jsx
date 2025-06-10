@@ -47,7 +47,7 @@ const Header = () => {
     return (
         <header>
             <nav className="nav">
-                <img src="/logo.png" className="logo" alt="logo" />
+                <img src="/Logo.png" className="logo" alt="logo" />
                 <NavLink className="enlace" to={isAuthenticated ? "/event/feed" : "/"} end>Explorar eventos</NavLink>
                 <NavLink className="enlace" to="/event/register" end>Crear Eventos</NavLink>
                 <div className="box-buttom">
