@@ -1,11 +1,14 @@
 header {
-    background: linear-gradient(to bottom, #bfd8f1, #ffffff);
+    background: linear-gradient(to bottom, #000000, #ffffff00);
     padding: 0.5rem 1rem;
     height: 80px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     box-sizing: border-box;
+    position: sticky;
+    z-index: 20;
+    top: 0;
 }
 
 .nav-container {
@@ -22,7 +25,7 @@ header {
 }
 /* Estilos de los enlaces */
 .enlace {
-    color: #000; /* Letra negra */
+    color: #ffffff; /* Letra negra */
     text-decoration: none;
     font-size: 1rem;
     font-weight: 500;
@@ -57,8 +60,7 @@ header {
 }
 
 .logo {
-    width: 50px;
-    height: 50px;
+    width: 100px;
     margin-right: 10px;
 }
 
