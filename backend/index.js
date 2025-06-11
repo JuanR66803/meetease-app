@@ -5,7 +5,7 @@ import authRoutes from "./routes/authRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import ticketRoutes from "./routes/ticketRoutes.js"
-import paymentRoutes from './routes/PaymentRoutes.js';
+//import paymentRoutes from './routes/PaymentRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -33,7 +33,7 @@ app.use("/api", authRoutes);
 app.use("/api/events", eventRoutes); 
 app.use("/api/users", userRoutes);
 app.use("/api/ticket", ticketRoutes);
-app.use('/api/payments', paymentRoutes);
+//app.use('/api/payments', paymentRoutes);
 // 🔹 Ruta de prueba
 app.get("/", (req, res) => {
     res.json({ message: "MeetEase Backend funcionando correctamente 🚀" });

@@ -1,4 +1,4 @@
-import mercadopago from '../config/mercadoPago.js';
+/*import mercadopago from '../config/mercadoPago.js';
 
 export const createPreference = async (req, res) => {
   try {
@@ -33,4 +33,4 @@ export const createPreference = async (req, res) => {
     console.error('Error al crear preferencia:', error);
     res.status(500).json({ message: 'Error al crear la preferencia de pago' });
   }
-};
+};*/
