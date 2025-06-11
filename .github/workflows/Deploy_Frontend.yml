@@ -1,0 +1,35 @@
+name: Deploy Monorepo to Vercel
+
+on:
+  push:
+    branches:
+      - main # O la rama principal de tu proyecto
+
+jobs:
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Frontend dependencies
+        run: npm install # O yarn install
+        working-directory: ./frontend # Instalar dependencias solo para el frontend
+
+      - name: Build Frontend
+        run: npm run build # O yarn build
+        working-directory: ./frontend # Construir solo el frontend
+
+      - name: Deploy Frontend to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }} # Necesitas un secret para el ORG del frontend
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_FRONTEND }} # Necesitas un secret para el PROJECT del frontend
+          # root-directory: ./frontend # Esto lo configuras en Vercel directamente al importar el proyecto
+          prod: ${{ github.ref == 'refs/heads/main' }}
