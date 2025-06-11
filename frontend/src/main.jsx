@@ -18,9 +18,7 @@ createRoot(document.getElementById("root")).render(
     <AuthProvider>
       <Layout>
         <Routes>
-          <Route index path="/" element={<Home />} />
-          <Route path="feed" element={<Feed/>}/>
-
+          <Route index path="/" element={<Feed/>} />
           {/* Rutas protegidas */}
           <Route path="event" element={<ProtectedRoute />}>
             <Route path="register" element={<Event />} />
