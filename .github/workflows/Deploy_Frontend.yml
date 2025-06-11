@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main # O la rama principal de tu proyecto
+  workflow_dispatch:
 
 jobs:
   deploy-frontend:
