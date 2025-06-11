@@ -1,0 +1,79 @@
+.feed-main-ticket {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: 1.5rem;
+    background-color: #000000; /* Fondo general oscuro */
+}
+
+.event-card-ticket-vertical {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 1.2rem 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+    flex-wrap: wrap;
+}
+
+.event-card-ticket-vertical:hover {
+    transform: translateY(-4px);
+    background-color: #dbd9d9;
+}
+
+.event-content-left {
+    flex: 2;
+    min-width: 250px;
+}
+
+.event-content-right {
+    flex: 1;
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: flex-start;
+}
+
+.event-title {
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #000000;
+}
+
+.event-content-left p,
+.event-content-right p {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+    color: #000000;
+}
+
+.btn_pago {
+    margin-top: 0.5rem;
+    background-color: #000000;
+    border: none;
+    color: rgb(255, 255, 255);
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn_pago:hover {
+    background-color: #535353;
+}
+
+.loading-text {
+    font-size: 1.1rem;
+    text-align: center;
+    padding: 2rem;
+    color: #ffffff;
+}
+

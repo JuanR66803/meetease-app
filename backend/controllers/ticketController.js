@@ -1,14 +1,13 @@
-import GenerarTicket from "../models/TicketsModel.js";
+import { GenerarTicket, FindTicket } from "../models/TicketsModel.js";
 
 
 export const createTicket = async (req, res) => {
     try {
         console.log("Recibiendo solicitud de creación de ticket:", req.body);
         const { id_event, id_user, type_tickets, qr_code, reserve_status, cant_entradas } = req.body;
-        // 🧪 Verificar valor y tipo de `numentradas`
+
         console.log("numentradas (valor recibido):", cant_entradas);
         console.log("Tipo de numentradas:", typeof cant_entradas);
-        //validacion de datos
         if (!id_event || !id_user || !type_tickets || !qr_code || !reserve_status || !cant_entradas) {
             return res.status(400).json({ message: "Faltan campos obligatorios." });
         }
@@ -22,4 +21,25 @@ export const createTicket = async (req, res) => {
         console.error("❌ Error al crear ticket:", error);
         res.status(500).json({ message: "Error en el servidor", error: error.message });
     }
-}
+};
+
+export const FindTicketsUser = async (req, res) => {
+    const { id_user } = req.body;
+    console.log("Id usuario ticket: ", id_user);
+
+    if (!id_user) {
+        return res.status(400).json({ message: "Faltan campos obligatorios." });
+    }
+
+    try {
+        const tickets = await FindTicket(id_user);
+        return res.status(200).json({
+            message: "Tickets encontrados.",
+            data: tickets,
+        });
+    } catch (error) {
+        console.error("❌ Error al buscar tickets:", error);
+        return res.status(500).json({ message: "Error del servidor." });
+    }
+};
+

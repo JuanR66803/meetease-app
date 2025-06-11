@@ -20,14 +20,17 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem("user"); // Limpia el dato corrupto
         }
     }, []);
-    const login = (userData) => {
+    const login = (userData,token) => {
+        setUser(userData);
         setUser(userData);
         localStorage.setItem("user", JSON.stringify(userData));
+        localStorage.setItem("token", token); // <--- guarda el token
     };
 
     const logout = () => {
         setUser(null);
         localStorage.removeItem("user");
+        localStorage.removeItem("token");
         navigate("/auth/sign-in");
     };
 

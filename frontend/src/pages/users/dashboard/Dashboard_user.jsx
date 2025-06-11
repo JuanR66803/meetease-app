@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { FaEdit, FaUser, FaCalendarAlt, FaHeart, FaCog } from "react-icons/fa";
+import { TiTicket } from "react-icons/ti";
 import "./Dashboard_user.css";
 import { useAuth } from "../../../context/AuthContext";
 import Profile from "./menu-item/profile/profile"; // Asegúrate de tener este componente si lo usas
+import Reservas from "./menu-item/reservas/reservas";
 
 const Dashboard_user = () => {
   const { user } = useAuth();
@@ -18,6 +20,8 @@ const Dashboard_user = () => {
         return <div>Favoritos (próximamente)</div>;
       case "config":
         return <div>Configuración (próximamente)</div>;
+      case "reservas":
+        return <Reservas/>
       default:
         return <div>Selecciona una opción del menú</div>;
     }
@@ -49,6 +53,13 @@ const Dashboard_user = () => {
             >
               <FaHeart className="menu-icon" />
               Favoritos
+            </li>
+            <li
+              className={`menu-item ${activeTab === "reservas" ? "active" : ""}`}
+              onClick={() => setActiveTab("reservas")}
+            >
+              <TiTicket className="menu-icon" />
+              Reservas
             </li>
             <li
               className={`menu-item ${activeTab === "config" ? "active" : ""}`}

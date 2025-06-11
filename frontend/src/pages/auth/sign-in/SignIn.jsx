@@ -50,7 +50,7 @@ const SignIn = () => {
                 throw new Error(data.message || "Error al iniciar sesión.");
             }
 
-            login(data.user); // Guardar usuario en el contexto de autenticación
+            login(data.user, data.token); // Guardar usuario en el contexto de autenticación
             setSuccess("Iniciando sesión. Redirigiendo...");
             setTimeout(() => navigate("/feed"), 1500);
         } catch (err) {
