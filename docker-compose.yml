@@ -31,5 +31,5 @@ services:
       - NODE_ENV=development
       - PORT=3000
       - FRONTEND_ORIGIN=http://localhost:5173  # Este es el origen esperado del frontend
-      - DATABASE_URI=postgresql://postgres:6421@localhost:5432/MeetEase
+      - DATABASE_URI=postgresql://postgres.lxukewbgbwdohusjgqlo:23272412rcs9@aws-0-sa-east-1.pooler.supabase.com:6543/postgres
       - JWT_SECRET=74e567d6ad3fafe9a1dc637030da24d21eefd5623484e63cbae7afdc38c7f2db0530c8ee450cc63dee3abb577a09822a0f4b70f0913ce67abd32bcbecf54c281

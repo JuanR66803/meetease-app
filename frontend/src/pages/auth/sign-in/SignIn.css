@@ -1,7 +1,8 @@
 :root {
     --primary-color: #007bff;
-    --dark-color: black;
-    --light-bg: #cce7ff;
+    --header-color: rgb(255, 255, 255);
+    --dark-color: #000;
+    --light-bg: #233d53;
     --hover-dark: #2c2c2c;
     --active-dark: #1a1a1a;
     --button-radius: 30px;
@@ -19,10 +20,11 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     min-height: 100vh;
+    border: 2px solid #ccc;
 }
 .sign-in-container h2{
-    color: var(--dark-color);
-    font-size: 24px;
+    color: var(--header-color);
+    font-size: 28px;
     margin-bottom: 20px;
     margin-top: 100px;
 }
@@ -37,12 +39,16 @@
 /* Sección azul (lado izquierdo en pantallas grandes) */
 .right-section-in {
     display: flex;
+    color: #ffffff;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 20px;
     width: 100%;
     
+}
+.right-section-in h2{
+    color: #fff;
 }
 
 @media (min-width: 768px) {
@@ -53,17 +59,36 @@
 }
 
 /* Sección del formulario (lado derecho en pantallas grandes) */
+.left-section-in h2, .left-section-in p, .left-section-in button{
+    position: relative;
+    z-index: 2;
+}
 .left-section-in {
     display: flex;
+    position: relative;
     flex: 1;
+    color: #ccc;
+    background-image: url(/bg_sign-in.jpg);
+    background-size: cover;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background-color: var(--light-bg);
-    border-radius: 100px 0 0 100px;
+    border-radius: 100px 20px 20px 100px;
     
 }
+.left-section-in::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0007;
+    transition: background-color 0.4s ease, content 0.3s ease;
+    z-index: 1;
+}
+
 
 @media (min-width: 768px) {
     .left-section-in {
@@ -78,6 +103,7 @@
     gap: 15px;
     margin-top: 20px;
     margin: auto;
+    
 }
 
 .auth-button-in {
@@ -169,6 +195,7 @@
     transition: all 0.3s ease-in-out;
     display: block;
     text-align: center;
+    border: 2px solid #ccc;
 }
 .submit-button-in:hover {
     background-color: var(--hover-dark);

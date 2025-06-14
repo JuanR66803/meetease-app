@@ -4,6 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useState, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import useAuthStore from "../../stores/useAuthStore";
+import { color } from "@cloudinary/url-gen/qualifiers/background";
 
 const Header = () => {
     // Ambos sistemas de autenticación
@@ -47,14 +48,14 @@ const Header = () => {
         <header>
             <nav className="nav">
                 <img src="/Logo.png" className="logo" alt="logo" />
-                <NavLink className="enlace" to={isAuthenticated ? "/event/feed" : "/"} end>Inicio</NavLink>
-                <NavLink className="enlace" to="/event/register" end>Eventos</NavLink>
+                <NavLink className="enlace" to={"/"}>Explorar eventos</NavLink>
+                <NavLink className="enlace" to="/event/register" end>Crear Eventos</NavLink>
                 <div className="box-buttom">
                     {isAuthenticated ? (
                         <>
                             {/* Botón de menú hamburguesa con ícono */}
                             <button className={`hamburger-menu ${menuOpen ? "active" : ""}`} onClick={toggleMenu}>
-                                {menuOpen ? <FaTimes /> : <FaBars />}
+                                {menuOpen ? <FaTimes style={{fontSize:'20px',color:'#fff'}} /> : <FaBars style={{fontSize:'20px',color:'#fff'}}/>}
                             </button>
                             {/* Menú desplegable con animación */}
                             <div className={`dropdown-menu ${menuOpen ? "show" : ""}`}>

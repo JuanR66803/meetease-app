@@ -82,10 +82,6 @@ const Event = () => {
         }
     };
 
-    const handleSelectChange = (name, value) => {
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
-
     const handleLocationSelect = (location) => {
         setFormData(prev => ({
             ...prev,
@@ -194,6 +190,11 @@ const Event = () => {
 
                 <div className="form-card">
                     <div className="form-container">
+                        {message && (
+                            <div className={`status-message ${message.includes("exitosamente") ? "success-message" : "error-message"}`}>
+                                {message}
+                            </div>
+                        )}
                         <form onSubmit={handleSubmit}>
                             {/* Paso 1: Información básica */}
                             {step === 1 && (
@@ -479,13 +480,6 @@ const Event = () => {
                                             </div>
                                         </div>
                                     </div>
-
-                                    {message && (
-                                        <div className={`status-message ${message.includes("exitosamente") ? "success-message" : "error-message"}`}>
-                                            {message}
-                                        </div>
-                                    )}
-
                                     <div className="btn-container">
                                         <button
                                             type="button"

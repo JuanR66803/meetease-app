@@ -4,7 +4,7 @@
   display: flex;
   justify-content: start;
   align-items: center;
-  background-color: #eaf8fa;
+  background-color: #000000;
   min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
   padding: 2rem;
@@ -14,7 +14,7 @@
 .dashboard-card {
   display: flex;
   width: 100%;
-  background-color: #f1fafa;
+  background-color: #000000;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   overflow: hidden;
@@ -25,7 +25,7 @@
   width: 300px;
   display: flex;
   flex-direction: column;
-  background-color: #d6e7ee;
+  background-color: #000000;
   padding: 20px;
   border-right: 1px solid #a0b7c6;
 }
@@ -39,6 +39,7 @@
   text-align: left;
   padding: 12px 10px;
   margin: 10px;
+  color: #fff;
   cursor: pointer;
   transition: background 0.2s ease;
   border-left: transparent;
@@ -50,7 +51,9 @@
 
 .menu-item:hover,
 .menu-item.active {
-  background-color: #c0dae2;
+  background-color: #ffffff;
+  color: #000;
+  border-radius: 10px;
   border-left: 1px solid #000;
   font-weight: bold;
 }
