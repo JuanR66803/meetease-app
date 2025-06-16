@@ -9,6 +9,11 @@ export default defineConfig({
     port: 5173,
     watch:{
       usePolling: true,
-    }
+    },
+  },
+    test: {
+    environment: 'jsdom', 
+    globals: true,
+    setupFiles: './vitest.setup.js'         
   }
 })
