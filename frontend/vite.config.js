@@ -10,6 +10,7 @@ export default defineConfig({
     watch:{
       usePolling: true,
     },
+    allowedHosts: ['http://meetease-app-frontend.onrender.com']
   },
     test: {
     environment: 'jsdom', 
