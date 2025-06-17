@@ -1,9 +1,13 @@
 .feed-main-ticket {
+    
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
     padding: 1.5rem;
-    background-color: #000000; /* Fondo general oscuro */
+    background-color: #0007; /* Fondo general oscuro */
+    max-height: 100vh; /* O la altura que tú necesites */
+    overflow-y: auto;
+
 }
 
 .event-card-ticket-vertical {
@@ -75,5 +79,27 @@
     text-align: center;
     padding: 2rem;
     color: #ffffff;
+}
+/* Añade esto a tu archivo CSS para depurar */
+.paypal-modal-overlay {
+    display: flex !important; /* !important es para forzarlo */
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: rgba(0, 0, 0, 0.7) !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 1000 !important; /* Un z-index alto para traerlo al frente */
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.paypal-modal-content {
+    background: white !important;
+    padding: 2rem !important;
+    border-radius: 8px !important;
+    color: black !important; /* Asegurarse de que el texto sea visible */
 }
 

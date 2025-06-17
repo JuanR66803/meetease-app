@@ -1,0 +1,98 @@
+.feed-main-ticket_q {
+    padding: 24px;
+    display: grid;
+    overflow-y: auto;
+    max-height:100vh; /* Ajusta según tu layout */
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+    background: #0007;
+}
+
+/* Tarjeta principal del ticket */
+.ticket-wrapper {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: transform 0.2s ease;
+}
+
+.ticket-wrapper:hover {
+    transform: translateY(-6px);
+}
+
+.ticket-header {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.ticket-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.ticket-title-group h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #2c3e50;
+}
+
+.ticket-type {
+    display: inline-block;
+    background-color: #e67e22;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    margin-top: 6px;
+}
+
+.ticket-info p {
+    margin: 10px 0;
+    font-size: 0.95rem;
+    color: #444;
+    display: flex;
+    text-align: left;
+    gap: 8px;
+}
+
+.ticket-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    gap: 12px;
+}
+
+.qr-code-box {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.print-btn_q {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.print-btn_q:hover {
+    background-color: #2980b9;
+}
+
+.loading-text_q {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #555;
+}

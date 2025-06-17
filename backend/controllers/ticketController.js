@@ -24,15 +24,15 @@ export const createTicket = async (req, res) => {
 };
 
 export const FindTicketsUser = async (req, res) => {
-    const { id_user } = req.body;
+    const { id_user, status} = req.body;
     console.log("Id usuario ticket: ", id_user);
 
-    if (!id_user) {
+    if (!id_user || !status) {
         return res.status(400).json({ message: "Faltan campos obligatorios." });
     }
 
     try {
-        const tickets = await FindTicket(id_user);
+        const tickets = await FindTicket(id_user,status);
         return res.status(200).json({
             message: "Tickets encontrados.",
             data: tickets,

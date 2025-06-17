@@ -63,3 +63,9 @@ export const findEventFeed = async () => {
     const result = await pool.query(query);
     return result.rows;
 };
+
+export const findEventById = async (id_event) => {
+    const query = `SELECT * FROM events WHERE id = $1 LIMIT 1;`;
+    const result = await pool.query(query, [id_event]);
+    return result.rows[0];
+};
