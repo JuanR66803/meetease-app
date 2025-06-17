@@ -4,17 +4,18 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server:{
+  server: {
     host: '0.0.0.0',
     port: 5173,
-    watch:{
+    watch: {
       usePolling: true,
     },
-    allowedHosts: ['http://meetease-app-frontend.onrender.com']
+    allowedHosts: ['meetease-app-frontend.onrender.com'] 
   },
-    test: {
-    environment: 'jsdom', 
+  test: {
+    environment: 'jsdom',
     globals: true,
-    setupFiles: './vitest.setup.js'         
+    setupFiles: './vitest.setup.js'
   }
 })
+
