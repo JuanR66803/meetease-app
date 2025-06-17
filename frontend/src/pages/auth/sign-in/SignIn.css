@@ -176,7 +176,7 @@
     border-bottom: 2px solid var(--primary-color);
     box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.4);
     transform: scale(1.05);
-    background-color: rgba(0, 123, 255, 0.05);
+    background-color: rgb(255,255,255);
 }
 
 /* Botón de enviar */
