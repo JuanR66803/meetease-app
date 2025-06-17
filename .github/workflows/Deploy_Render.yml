@@ -3,8 +3,8 @@ name: Deploy Frontend and Backend to Render
 on:
   push:
     branches:
-      - main 
-  workflow_dispatch: # Permite disparar el workflow manualmente desde GitHub UI
+      - master
+  workflow_dispatch: 
 
 jobs:
   # Job para el despliegue del Backend
@@ -17,15 +17,15 @@ jobs:
       - name: Set up Node.js (o tu runtime de backend, e.g., Python, Java)
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Ajusta la versión de Node.js según tu backend
+          node-version: '20'
 
       - name: Install backend dependencies
         working-directory: ./backend # Ruta a tu carpeta de backend
-        run: npm install # O pip install -r requirements.txt, mvn install, etc.
+        run: npm install 
 
       - name: Build backend (si es necesario)
         working-directory: ./backend # Ruta a tu carpeta de backend
-        run: npm run build # Algunos backends no necesitan un paso de 'build'
+        run: npm run build
 
       - name: Trigger Backend Deploy on Render
         uses: JorgeLNJunior/render-deploy@v1.4.5 # Usa la acción de Render
@@ -38,7 +38,7 @@ jobs:
   # Job para el despliegue del Frontend
   deploy-frontend:
     runs-on: ubuntu-latest
-    needs: deploy-backend # Este job esperará a que el backend se despliegue primero
+    needs: deploy-backend 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -46,7 +46,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Ajusta la versión de Node.js según tu frontend
+          node-version: '20' 
 
       - name: Install frontend dependencies
         working-directory: ./frontend # Ruta a tu carpeta de frontend
@@ -54,10 +54,10 @@ jobs:
 
       - name: Build frontend
         working-directory: ./frontend # Ruta a tu carpeta de frontend
-        run: npm run build # Ajusta este comando si usas otra herramienta (e.g., yarn build, ng build)
+        run: npm run build
 
       - name: Trigger Frontend Deploy on Render
-        uses: JorgeLNJunior/render-deploy@v1.4.5 # Usa la acción de Render
+        uses: JorgeLNJunior/render-deploy@v1.4.5 
         with:
           service_id: ${{ secrets.FRONTEND_SERVICE_ID }}
           api_key: ${{ secrets.RENDER_API_KEY }}
