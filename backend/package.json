@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
-  "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "jest",
-    "build": "vite build"
+ "scripts": {
+  "start": "node index.js",
+  "dev": "nodemon index.js",
+  "test": "jest"
   },
   "keywords": [],
   "author": "",
