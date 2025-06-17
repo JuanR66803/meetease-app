@@ -23,10 +23,6 @@ jobs:
         working-directory: ./backend # Ruta a tu carpeta de backend
         run: npm install 
 
-      - name: Build backend (si es necesario)
-        working-directory: ./backend # Ruta a tu carpeta de backend
-        run: node index.js
-
       - name: Trigger Backend Deploy on Render
         uses: JorgeLNJunior/render-deploy@v1.4.5 # Usa la acción de Render
         with:
