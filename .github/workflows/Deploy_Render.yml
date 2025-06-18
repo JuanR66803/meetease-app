@@ -28,6 +28,7 @@ jobs:
         with:
           service_id: ${{ secrets.BACKEND_SERVICE_ID }}
           api_key: ${{ secrets.RENDER_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           clear_cache: true 
           wait_deploy: true 
 
@@ -57,5 +58,6 @@ jobs:
         with:
           service_id: ${{ secrets.FRONTEND_SERVICE_ID }}
           api_key: ${{ secrets.RENDER_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           clear_cache: true 
-          wait_deploy: true 
+          wait_deploy: true   
