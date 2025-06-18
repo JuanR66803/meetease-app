@@ -39,14 +39,7 @@ export const UpdateTicketReserveStatus = async (id_tickets, newStatus) => { // i
 // 4. NUEVA FUNCIÓN: Obtener un ticket específico POR ID_TICKETS y verificar su estado 'reservado'
 export const GetReservedTicketById = async (id_tickets) => { // id_tickets, no id_ticket
     const query = `
-        SELECT 
-            t.id_tickets, t.id_event, t.id_user, t.cant_entradas, t.type_tickets,
-            e.price, e.title, e.date, e.time, e.address, e.location_name
-        FROM ticket t
-        JOIN events e ON t.id_event = e.id
-        WHERE 
-            t.id_tickets = $1 AND 
-            t.reserve_status = 'reservado'; -- Solo tickets en estado 'reservado'
+        SELECT * FROM ticket t JOIN events e ON t.id_event = e.id WHERE t.id_tickets = $1 AND t.reserve_status = 'reservado'; 
     `;
     const values = [id_tickets];
     const result = await pool.query(query, values);

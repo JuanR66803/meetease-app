@@ -1,19 +1,16 @@
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../../../../../context/AuthContext";
 import { FaMapMarkerAlt, FaCalendarAlt, FaClock, FaTicketAlt } from "react-icons/fa";
-import "./reservas.css"; // Asegúrate de tener tus estilos CSS aquí
+import "./reservas.css";
 
 const Reservas = () => {
     const [tickets, setTickets] = useState([]);
     const [loading, setLoading] = useState(true);
     const { user } = useAuth();
 
-    // Estado para el ticket seleccionado para pagar
     const [selectedTicket, setSelectedTicket] = useState(null);
-    // Ref para el contenedor del botón de PayPal
     const paypalButtonRef = useRef();
 
-    // Función auxiliar para formatear la fecha
     const formatDate = (dateStr) => {
         const date = new Date(dateStr);
         const day = date.getDate();
@@ -21,142 +18,144 @@ const Reservas = () => {
         return { day, month };
     };
 
-    // 1. useEffect para obtener los tickets pendientes de pago
-    useEffect(() => {
-        const fetchTickets = async () => {
-            try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/ticket/findTickets`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    credentials: "include",
-                    body: JSON.stringify({ id_user: user.id, status: "reservado" }),
-                });
+    const fetchTickets = async () => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/ticket/findTickets`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ id_user: user.id, status: "reservado" }),
+            });
 
-                const data = await response.json();
-                if (response.ok) {
-                    setTickets(data.data); 
-                } else {
-                    console.error("❌ Error al obtener tickets:", data.message);
-                }
-            } catch (error) {
-                console.error("❌ Error al obtener tickets:", error);
-            } finally {
-                setLoading(false);
+            const data = await response.json();
+            if (response.ok) {
+                setTickets(data.data); 
+            } else {
+                console.error("❌ Error al obtener tickets:", data.message);
             }
-        };
+        } catch (error) {
+            console.error("❌ Error al obtener tickets:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-        if (user) fetchTickets();
-    }, [user]); 
-
-    // 2. useEffect para renderizar el botón de PayPal
     useEffect(() => {
-        // Solo renderiza si hay un ticket seleccionado Y el script de PayPal ya está cargado
-        if (selectedTicket && paypalButtonRef.current && window.paypal) {
-            // Limpiamos el contenido previo del contenedor del botón para evitar duplicados
-            paypalButtonRef.current.innerHTML = ''; 
+        if (user) fetchTickets();
+    }, [user]);
 
-            // Asegúrate de que el script SDK de PayPal esté cargado en tu index.html
-            // <script src={`https://www.paypal.com/sdk/js?client-id=${import.meta.env.VITE_PAYPAL_CLIENT_ID}&currency=USD`}></script>
+    // CONFIRMAR TICKETS GRATUITOS AUTOMÁTICAMENTE
+    const confirmarEntradaGratuita = async (ticket) => {
+        try {
+            console.log(ticket)
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/payments/payments/confirm-free-ticket`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id_tickets: ticket.id_tickets,
+                    id_event: ticket.id_event,
+                    id_user: user.id,
+                    type_tickets: ticket.type_tickets,
+                    cant_entradas: ticket.cant_entradas
+                })
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                alert("✅ Entrada gratuita confirmada. Puedes verla en 'Mis Tickets'.");
+                setTickets(prev => prev.filter(t => t.id_tickets !== ticket.id_tickets));
+            } else {
+                alert("❌ No se pudo confirmar el ticket gratuito: " + data.message);
+            }
+        } catch (error) {
+            console.error("❌ Error al confirmar entrada gratuita:", error);
+            alert("Ocurrió un error al confirmar el ticket gratuito.");
+        }
+    };
+
+    // RENDERIZAR PAYPAL SI SELECCIONADO Y NO ES GRATIS
+    useEffect(() => {
+        if (
+            selectedTicket &&
+            selectedTicket.price > 0 &&
+            paypalButtonRef.current &&
+            window.paypal
+        ) {
+            paypalButtonRef.current.innerHTML = '';
 
             window.paypal.Buttons({
-                // Función que se llama para crear la orden en PayPal (llamada a tu backend)
-                // eslint-disable-next-line no-unused-vars
-                createOrder: (data, actions) => {
-                    return fetch(`${import.meta.env.VITE_API_URL}/api/payments/paypal/create-order`, { // Ruta corregida
+                createOrder: () => {
+                    return fetch(`${import.meta.env.VITE_API_URL}/api/payments/paypal/create-order`, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            // ¡Importante! Ahora enviamos id_tickets, no amount directamente.
-                            // El backend calculará el monto y la conversión.
-                            id_ticket: selectedTicket.id_tickets, // Usa id_tickets para enviar al backend
-                            id_user: user.id, // También es útil enviar el ID del usuario
-                            quantity: selectedTicket.cant_entradas, // Cantidad de entradas de este ticket
-                            type: selectedTicket.type_tickets, // Tipo de ticket (general, VIP, etc.)
+                            id_ticket: selectedTicket.id_tickets,
+                            id_user: user.id,
+                            quantity: selectedTicket.cant_entradas,
+                            type: selectedTicket.type_tickets,
                             description: `Entradas para ${selectedTicket.title} (${selectedTicket.cant_entradas} x ${selectedTicket.type_tickets})`,
-                        })
+                        }),
                     })
-                    .then(response => response.json())
-                    .then(order => {
-                        if (order.id) {
-                            return order.id; // Retorna el ID de la orden de PayPal
-                        } else {
-                            throw new Error('No se pudo crear la orden de PayPal. Recibido: ' + JSON.stringify(order));
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error al crear la orden de PayPal:", error);
-                        alert("Hubo un problema al iniciar el pago. Inténtalo de nuevo.");
-                        setSelectedTicket(null); // Oculta el modal de pago
-                        return Promise.reject(error); // Rechaza la promesa para evitar que PayPal continúe
+                    .then(res => res.json())
+                    .then(order => order.id)
+                    .catch(err => {
+                        console.error("Error creando orden:", err);
+                        alert("Error al crear la orden de PayPal.");
+                        setSelectedTicket(null);
                     });
                 },
-                // Función que se llama cuando el usuario aprueba la transacción en PayPal
-                onApprove: (data, actions) => {
-                    // Esta llamada va a tu backend para CAPTURAR el pago
-                    return fetch(`${import.meta.env.VITE_API_URL}/api/payments/paypal/capture-order`, { // Ruta corregida
+
+                onApprove: (data) => {
+                    return fetch(`${import.meta.env.VITE_API_URL}/api/payments/paypal/capture-order`, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            orderID: data.orderID, // El ID de la orden que PayPal te da
-                            // Envías los detalles del ticket al backend, incluyendo id_tickets
-                            ticketDetails: { 
-                                id_tickets: selectedTicket.id_tickets, // Asegúrate de enviar id_tickets
-                                id_event: selectedTicket.id_event, 
-                                id_user: user.id, 
+                            orderID: data.orderID,
+                            ticketDetails: {
+                                id_tickets: selectedTicket.id_tickets,
+                                id_event: selectedTicket.id_event,
+                                id_user: user.id,
                                 type_tickets: selectedTicket.type_tickets,
                                 cant_entradas: selectedTicket.cant_entradas,
-                            }
-                        })
+                            },
+                        }),
                     })
-                    .then(response => response.json())
-                    .then(captureDetails => {
-                        console.log("Pago capturado:", captureDetails);
-                        if (captureDetails.status === 'COMPLETED') {
-                            alert("¡Pago exitoso! Gracias por tu compra.");
-                            // Filtra el ticket pagado del estado local usando id_tickets
-                            setTickets(prevTickets => 
-                                prevTickets.filter(t => t.id_tickets !== selectedTicket.id_tickets) // Usa id_tickets para filtrar
-                            );
-                            setSelectedTicket(null); // Oculta el popup de pago
-                            // Opcional: podrías recargar la lista de tickets para asegurar consistencia
-                            // fetchTickets(); 
+                    .then(res => res.json())
+                    .then(result => {
+                        if (result.status === 'COMPLETED') {
+                            alert("✅ ¡Pago exitoso!");
+                            setTickets(prev => prev.filter(t => t.id_tickets !== selectedTicket.id_tickets));
+                            setSelectedTicket(null);
                         } else {
-                            alert("El pago no se completó. Por favor, inténtalo de nuevo.");
+                            alert("❌ El pago no fue completado.");
                         }
                     })
-                    .catch(error => {
-                        console.error("Error al capturar el pago:", error);
-                        alert("Hubo un problema al procesar el pago. Inténtalo de nuevo.");
+                    .catch(err => {
+                        console.error("Error capturando orden:", err);
+                        alert("Error al capturar el pago.");
                     });
                 },
-                // Función que se llama si el usuario cancela el pago
-                onCancel: (data) => {
-                    console.log('Pago cancelado:', data);
-                    alert('Has cancelado el pago.');
-                    setSelectedTicket(null); // Cierra el popup o modal
+
+                onCancel: () => {
+                    alert("Has cancelado el pago.");
+                    setSelectedTicket(null);
                 },
-                // Función para manejar errores durante el proceso de pago
+
                 onError: (err) => {
                     console.error("Error de PayPal:", err);
-                    alert("Ocurrió un error con PayPal. Por favor, inténtalo de nuevo.");
-                    setSelectedTicket(null); // Cierra el popup o modal
-                }
-            }).render(paypalButtonRef.current); // Renderiza los botones en el div referenciado
-        } else if (!selectedTicket && paypalButtonRef.current) {
-            // Si no hay ticket seleccionado y el ref existe, limpia el contenido (para esconder el botón)
-            paypalButtonRef.current.innerHTML = '';
+                    alert("Ocurrió un error con PayPal.");
+                    setSelectedTicket(null);
+                },
+            }).render(paypalButtonRef.current);
         }
-    }, [selectedTicket, user]); // Dependencias: Se ejecuta cuando selectedTicket o user cambian
+    }, [selectedTicket]);
 
-    // Función para manejar el clic en el botón "Pagar"
-    const handlePaymentClick = (ticketToPay) => {
-        console.log("🖱️ Clic en Pagar. Ticket seleccionado:", ticketToPay); // Renombrado para mayor claridad
-        setSelectedTicket(ticketToPay);
-         // Guarda el ticket que se va a pagar
+    const handlePaymentClick = (ticket) => {
+        if (Number(ticket.price) === 0) {
+            confirmarEntradaGratuita(ticket);
+        } else {
+            setSelectedTicket(ticket);
+        }
     };
 
     return (
@@ -166,31 +165,31 @@ const Reservas = () => {
             ) : tickets.length === 0 ? (
                 <p className="loading-text">No tienes eventos reservados.</p>
             ) : (
-                tickets.map(ticketItem => { // Renombrado a ticketItem para evitar conflictos
-                    const { day, month } = formatDate(ticketItem.date);
+                tickets.map(ticket => {
+                    const { day, month } = formatDate(ticket.date);
                     return (
-                        <div className="event-card-ticket-vertical" key={ticketItem.id_tickets}> {/* Usa id_tickets como key */}
+                        <div className="event-card-ticket-vertical" key={ticket.id_tickets}>
                             <div className="event-content-left">
-                                <h3 className="event-title">{ticketItem.title}</h3>
+                                <h3 className="event-title">{ticket.title}</h3>
                                 <p><FaCalendarAlt /> {day} {month}</p>
-                                <p><FaClock /> {ticketItem.time}</p>
-                                <p><FaMapMarkerAlt /> {ticketItem.address}, {ticketItem.location_name}</p>
+                                <p><FaClock /> {ticket.time}</p>
+                                <p><FaMapMarkerAlt /> {ticket.address}, {ticket.location_name}</p>
                             </div>
                             <div className="event-content-right">
-                                <p><FaTicketAlt /> Tipo: <strong>{ticketItem.type_tickets}</strong></p>
-                                <p>Cantidad: <strong>{ticketItem.cant_entradas}</strong></p>
-                                {/* Muestra el precio unitario y el total en COP para información del usuario */}
-                                <p>Precio Unitario: <strong>${ticketItem.price} COP</strong></p>
-                                <p>Total a Pagar: <strong>${ticketItem.price * ticketItem.cant_entradas} COP</strong></p>
-                                <button className="btn_pago" onClick={() => handlePaymentClick(ticketItem)}>Pagar</button>
+                                <p><FaTicketAlt /> Tipo: <strong>{ticket.type_tickets}</strong></p>
+                                <p>Cantidad: <strong>{ticket.cant_entradas}</strong></p>
+                                <p>Precio Unitario: <strong>${ticket.price} COP</strong></p>
+                                <p>Total: <strong>${ticket.price * ticket.cant_entradas} COP</strong></p>
+                                <button className="btn_pago" onClick={() => handlePaymentClick(ticket)}>
+                                    {Number(ticket.price) === 0 ? "Confirmar Gratis" : "Pagar"}
+                                </button>
                             </div>
                         </div>
                     );
                 })
             )}
 
-            {/* Este es el popup/modal donde aparecerá el botón de PayPal */}
-            {selectedTicket && (
+            {selectedTicket && selectedTicket.price > 0 && (
                 <div className="paypal-modal-overlay">
                     <div className="paypal-modal-content">
                         <h2>Confirmar Pago</h2>
@@ -198,10 +197,9 @@ const Reservas = () => {
                         <p><strong>Evento:</strong> {selectedTicket.title}</p>
                         <p><strong>Tipo de Ticket:</strong> {selectedTicket.type_tickets}</p>
                         <p><strong>Cantidad:</strong> {selectedTicket.cant_entradas}</p>
-                        <p><strong>Total (COP):</strong> ${selectedTicket.price * selectedTicket.cant_entradas} COP</p>
-                        <p className="small-text">El monto final en USD será calculado al momento del pago.</p>
-                        
-                        {/* Contenedor donde se renderizará el botón de PayPal */}
+                        <p><strong>Total (COP):</strong> ${selectedTicket.price * selectedTicket.cant_entradas}</p>
+                        <p className="small-text">El monto final en USD se calculará automáticamente.</p>
+
                         <div ref={paypalButtonRef} id="paypal-button-container"></div>
 
                         <button onClick={() => setSelectedTicket(null)} className="close-paypal-modal">Cerrar</button>

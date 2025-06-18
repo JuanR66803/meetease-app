@@ -170,3 +170,58 @@ export const capturePaypalOrder = async (req, res) => {
         res.status(500).json({ message: "Error interno", error: error.message });
     }
 };
+// ---------------------------------------------
+// Confirmar entrada gratuita (sin PayPal)
+// ---------------------------------------------
+export const confirmFreeTicket = async (req, res) => {
+    try {
+        const { id_tickets, id_user, id_event, type_tickets, cant_entradas } = req.body;
+        if (!id_tickets || !id_user || !id_event || !cant_entradas) {
+            return res.status(400).json({ message: "Faltan datos necesarios." });
+        }
+        const ticketResult = await GetReservedTicketById(id_tickets);
+        const ticket = (Array.isArray(ticketResult) && ticketResult.length > 0) ? ticketResult[0] : ticketResult;
+        
+        if (!ticket || ticket.reserve_status !== 'reservado') {
+            return res.status(404).json({ message: "Ticket no válido o ya confirmado." });
+        }
+
+        
+        const event = await findEventById(id_event);
+        if (!event) {
+            return res.status(404).json({ message: "Evento no encontrado." });
+        }
+
+        
+        if (parseFloat(event.price) !== 0) {
+            return res.status(400).json({ message: "Este ticket no es gratuito." });
+        }
+
+        
+        const simulatedTransactionId = `FREE-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+
+        await InsertPaymentRecord(
+            id_tickets,
+            'Gratuito',
+            0, 
+            'CONFIRMED',
+            simulatedTransactionId,
+            simulatedTransactionId
+        );
+
+        // 6. Actualizar el estado de reserva del ticket
+        await UpdateTicketReserveStatus(id_tickets, 'confirmado');
+
+        // 7. Enviar respuesta exitosa
+        res.status(200).json({
+            message: "Ticket gratuito confirmado.",
+            status: 'CONFIRMED',
+            transaction_id: simulatedTransactionId
+        });
+
+    } catch (error) {
+        console.error("Error confirmando entrada gratuita:", error);
+        // Proporciona un mensaje de error más genérico si no es un error de validación específico
+        res.status(500).json({ message: "Error interno del servidor al confirmar el ticket.", error: error.message });
+    }
+};

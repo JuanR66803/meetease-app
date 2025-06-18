@@ -1,6 +1,6 @@
 // routes/paymentRoutes.js
 import express from 'express';
-import { createPaypalOrder, capturePaypalOrder } from '../controllers/paymentController.js';
+import { createPaypalOrder, capturePaypalOrder,confirmFreeTicket } from '../controllers/paymentController.js';
 
 const router = express.Router();
 
@@ -11,5 +11,7 @@ router.post('/paypal/create-order', createPaypalOrder);
 // Ruta para capturar el pago en PayPal
 // El frontend (React) llamará a esta ruta después de que el usuario apruebe la transacción en PayPal
 router.post('/paypal/capture-order', capturePaypalOrder);
+router.post('/payments/confirm-free-ticket', confirmFreeTicket);
+
 
 export default router;
