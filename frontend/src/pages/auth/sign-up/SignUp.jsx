@@ -56,7 +56,7 @@ const SignUp = () => {
             {/* Sección Izquierda */}
             <div className="left-section">
                 <div className="text-center">
-                    <h1>Regístrate</h1>
+                    <h2>Regístrate</h2>
                     <p>Adquiere tu mejor experiencia</p>
                     
                     <div className="auth-buttons">
